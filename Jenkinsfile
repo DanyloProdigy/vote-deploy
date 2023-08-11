@@ -1,0 +1,26 @@
+node {
+    def app
+    
+    stage('Clone repository') {
+      
+
+        checkout scm
+    }
+
+    stage('Update GIT') {
+            script {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    withCredentials([usernamePassword(credentialsId: '095b557f-8d7e-443a-b37f-ffab0ce35cab', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                        sh "git config user.email danylo.karas@prodigygame.com"
+                        sh "git config user.name DanyloProdigy"
+                        sh "cat vote-ui-deployment.yaml"
+                        sh "sed -i 's+danylokaras/vote.*+danylokaras/vote:${DOCKERTAG}+g' vote-ui-deployment.yaml"
+                        sh "cat vote-ui-deployment.yaml"
+                        sh "git add ."
+                        sh "git commit -m 'Done by Jenkins Job deployment: ${env.BUILD_NUMBER}'"
+                        sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/vote-deploy.git HEAD:master"
+      }
+    }
+  }
+}
+}
