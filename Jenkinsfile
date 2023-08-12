@@ -10,7 +10,7 @@ node {
     stage('Update GIT') {
             script {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    withCredentials([usernamePassword(credentialsId: '095b557f-8d7e-443a-b37f-ffab0ce35cab', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                    withCredentials([usernamePassword(credentialsId: '01d10d5f-cb2e-4ff8-aac2-ef596917b230', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh "git config user.email danylo.karas@prodigygame.com"
                         sh "git config user.name DanyloProdigy"
                         sh "cat vote-ui-deployment.yaml"
